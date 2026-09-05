@@ -1,0 +1,28 @@
+#include <MD_Parola.h>
+#include <MD_MAX72xx.h>
+#include <SPI.h>
+
+// Hardware type for the common 4-in-1 modules
+#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
+#define MAX_DEVICES   4          // 4 modules = 32×8
+
+// ESP32-C3 pins
+#define CLK_PIN   8
+#define DATA_PIN  6
+#define CS_PIN    7
+
+MD_Parola P = MD_Parola(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
+
+void setup() {
+  P.begin();
+  P.setIntensity(8);               // 0–15 brightness
+  P.displayClear();
+  P.displayText("Quantum Spark — Made in Bangladesh", PA_CENTER, 50, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+}
+
+void loop() {
+  if (P.displayAnimate()) {
+    P.displayReset();              // restart the scroll
+  }
+  delay(10);
+}
