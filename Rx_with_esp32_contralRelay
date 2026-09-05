@@ -1,0 +1,115 @@
+#define CH5 33
+#define CH6 14
+#define CH3 12
+
+
+#define RELAY1 16
+#define RELAY2 17
+#define RELAY3 19
+
+
+
+int readPWM(int pin)
+{
+  return pulseIn(pin, HIGH, 25000);
+}
+
+
+
+void setup()
+{
+
+Serial.begin(115200);
+
+
+pinMode(CH5, INPUT);
+pinMode(CH6, INPUT);
+pinMode(CH3, INPUT);
+
+
+pinMode(RELAY1, OUTPUT);
+pinMode(RELAY2, OUTPUT);
+pinMode(RELAY3, OUTPUT);
+
+
+// Relay OFF (Active LOW relay board)
+
+digitalWrite(RELAY1,HIGH);
+digitalWrite(RELAY2,HIGH);
+digitalWrite(RELAY3,HIGH);
+
+
+}
+
+
+
+void loop()
+{
+
+int ch5 = readPWM(CH5);
+
+int ch6 = readPWM(CH6);
+
+int ch3 = readPWM(CH3);
+
+
+
+Serial.print("CH5:");
+Serial.print(ch5);
+
+Serial.print(" CH6:");
+Serial.print(ch6);
+
+Serial.print(" CH3:");
+Serial.println(ch3);
+
+
+
+//================ CH5 Relay 1 =================
+
+
+if(ch5 < 1200)
+{
+  digitalWrite(RELAY1,LOW);   // ON
+}
+else if(ch5 > 1400)
+{
+  digitalWrite(RELAY1,HIGH);  // OFF
+}
+
+
+
+
+//================ CH6 Relay 2 =================
+
+
+if(ch6 < 1200)
+{
+  digitalWrite(RELAY2,LOW);   // ON
+}
+else if(ch6 > 1400)
+{
+  digitalWrite(RELAY2,HIGH);  // OFF
+}
+
+
+
+
+
+//================ CH3 Relay 3 =================
+
+
+if(ch3 > 1900)
+{
+  digitalWrite(RELAY3,LOW);   // ON
+}
+else if(ch3 < 1200)
+{
+  digitalWrite(RELAY3,HIGH);  // OFF
+}
+
+
+
+delay(20);
+
+}
